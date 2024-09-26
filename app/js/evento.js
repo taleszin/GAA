@@ -65,6 +65,7 @@ function mostrarDetalhes(eventId) {
 function registrarInscricao(eventId) {
         var idUser = $('#id_usuario').val();
         var dados = { id_evento: eventId, usuario_id: idUser };
+        console.log(dados);
         var jsonData = JSON.stringify(dados);
         $.ajax({
             url: '../classes/InscritoService.php',
@@ -73,10 +74,11 @@ function registrarInscricao(eventId) {
             contentType: 'application/json',
             success: function(response) {
                 var data = JSON.parse(response);
+                console.log(data);
                 if (data.success) {
                     alert('Você se inscreveu com sucesso!');
                 } else {
-                    alert('Erro ao criar evento: ' + data.error);
+                    alert('Erro ao se inscrever: ' + data.error);
                 }
             },
             error: function(xhr, status, error) {

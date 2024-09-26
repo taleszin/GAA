@@ -20,7 +20,7 @@ class EventoService {
         $stmt->fetch();
         $stmt->close();
         return $count > 0; 
-    }a
+    }
 
     public function registrarEvento($evento) {
         $sql = "INSERT INTO eventos (titulo, descricao, data_evento, hora_inicio, horas_complementares, localizacao, vagas, usuario_id, data_criacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -29,7 +29,8 @@ class EventoService {
             die(json_encode("Erro no SQL: " . $this->conexao->error));
         }
         
-        $data_criacao = date("Y-m-d H:i:s");
+        $data_criacao = new DateTime("now", new DateTimeZone("America/Sao_Paulo"));
+        $data_criacao = $data_criacao->format("Y-m-d H:i:s");
         
         if (!$stmt->bind_param("sssssdsis", 
             $evento['titulo'], 
@@ -52,7 +53,6 @@ class EventoService {
         
         $stmt->close();
     }
-    
 
     public function getEventos() {
         $sql = "SELECT id, titulo, descricao, data_evento, hora_inicio, vagas, usuario_id, data_criacao, imagem FROM eventos WHERE data_evento >= CURDATE() ORDER BY data_evento ASC";
@@ -85,6 +85,7 @@ class EventoService {
         return $evento;
     }
 }
+
 
 $eventoService = new EventoService($conexao);
 

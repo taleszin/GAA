@@ -4,11 +4,9 @@ include("UsuarioService.php");
 
 session_start();
 $usuarioService = new UsuarioService($conexao);
-
-// Dados do usuário a serem inseridos
 $email = "aldeci@uece.br";
-$senha = "mudar123"; // Senha em texto claro
-$tipo = "professor"; // Tipo de usuário
+$senha = "mudar123"; 
+$tipo = "professor"; 
 $senha_criptografada = password_hash($senha, PASSWORD_DEFAULT);
 
 
@@ -23,7 +21,6 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Inserir novo usuário no banco de dados
 $sql_insert = "INSERT INTO usuarios (email, senha, tipo) VALUES (?, ?, ?)";
 $stmt_insert = $conexao->prepare($sql_insert);
 $stmt_insert->bind_param("sss", $email, $senha_criptografada, $tipo);

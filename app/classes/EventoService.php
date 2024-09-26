@@ -84,8 +84,25 @@ class EventoService {
         $stmt->close();
         return $evento;
     }
-}
 
+    public function inscreverUsuario($usuario_id, $evento_id) {
+        if ($this->verificarInscricao($usuario_id, $evento_id)) {
+            return json_encode(["success" => false, "message" => "Usuário já inscrito neste evento."]);
+        }
+        $sql = "INSERT INTO inscritos (usuario_id, evento_id) VALUES (?, ?)";
+        $stmt = $this->conexao->prepare($sql);
+        if ($stmt === false) {
+            die(json_encode("Erro no SQL: " . $this->conexao->error));
+        }
+        $stmt->bind_param("ii", $usuario_id, $evento_id);
+        if ($stmt->execute() === true) {
+            return json_encode(["success" => true, "message" => "Inscrição realizada com sucesso."]);
+        } else {
+            return json_encode("Erro na execução do SQL: " . $stmt->error);
+        }
+        $stmt->close();
+    }
+}
 
 $eventoService = new EventoService($conexao);
 
@@ -94,5 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evento = json_decode($json_data, true);
     echo $eventoService->registrarEvento($evento);
 }
+
 $eventos = $eventoService->getEventos();
 ?>

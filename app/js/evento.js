@@ -62,27 +62,41 @@ function mostrarDetalhes(eventId) {
         }
     });
 }
-function registrarInscricao(eventId) {
-        var idUser = $('#id_usuario').val();
-        var dados = { id_evento: eventId, usuario_id: idUser };
-        console.log(dados);
-        var jsonData = JSON.stringify(dados);
-        $.ajax({
-            url: '../classes/InscritoService.php',
-            type: 'POST',
-            data: jsonData,
-            contentType: 'application/json',
-            success: function(response) {
-                var data = JSON.parse(response);
-                console.log(data);
-                if (data.success) {
-                    alert('Você se inscreveu com sucesso!');
-                } else {
-                    alert('Erro ao se inscrever: ' + data.error);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Erro NA CONEXAO", error);
-            }
+
+
+function inscreverUsuario() {
+    var modalHtml = `
+        <div class="modal fade" id="inscricaoModal" tabindex="-1" role="dialog" aria-labelledby="inscricaoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inscricaoModalLabel">Confirmação de Inscrição</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Você realmente deseja se inscrever neste evento?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="confirmarInscricao">Sim, inscrever-me</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    $('body').append(modalHtml);
+    $('#inscricaoModal').modal('show');
+
+    $('#confirmarInscricao').on('click', function() {
+        alert("Usuário inscrito com sucesso!");
+        $('#inscricaoModal').modal('hide');
+        $('#inscricaoModal').on('hidden.bs.modal', function () {
+            $(this).remove();
         });
+    });
 }
+
+

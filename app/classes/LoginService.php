@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         } else {
-            echo json_encode(["success" => false, "error" => "Usuário indefinido."]);
+            echo json_encode(["success" => false, "error" => "Usuário inexistente."]);
             exit();
         }
     } else {

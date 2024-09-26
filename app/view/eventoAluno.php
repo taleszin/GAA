@@ -16,7 +16,6 @@ if (!$evento) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -39,7 +38,7 @@ if (!$evento) {
             <p class="card-text"><strong>Carga horária:</strong> <?= number_format($evento['horas_complementares'], 1) ?> Horas</p>
             <p class="card-text"><?= $evento['descricao'] ?></p>
             <input type="hidden" id="id_usuario" value="<?=$_SESSION['id_usuario']?>">
-            <button type="button" class="btn btn-success" onclick="registrarInscricao(<?=$evento['id']?>);">Se inscrever no evento</button>
+            <button type="button" class="btn btn-success" onclick="inscreverUsuario();">Se inscrever no evento</button>
         </div>
     </div>
 </div>
